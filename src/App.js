@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import generateUniqueId from 'generate-unique-id'
+
 
 import styles from './components/styles/PhoneBook.module.css'
 import './App.css';
@@ -19,27 +21,30 @@ class App extends Component {
     filter: '',
   }
 
-  handleNewContactsItem = (contacstItem) => {
+  handleNewContactsItem = (contactstItem) => {
+    let newId;
+    if (contactstItem) newId = generateUniqueId();
+    contactstItem.id = newId
+
     const contacts = this.state.contacts;
-    const checkName = contacts.find(el => el.name.toLowerCase() === contacstItem.name.toLowerCase())
+    const checkName = contacts.find(el => el.name.toLowerCase() === contactstItem.name.toLowerCase())
 
     !checkName ? this.setState(({ contacts }) => ({
-      contacts: [contacstItem, ...contacts]
+      contacts: [contactstItem, ...contacts]
     }))
-      : alert(`${contacstItem.name} already in contacts`)
+      : alert(`${contactstItem.name} already in contacts`)
   }
 
   handleFilterValue = event => {
     this.setState({ filter: event.currentTarget.value });
   }
 
-  heandleDeleteContact = id => {
+  handleDeleteContact = id => {
     this.setState(prevState =>
       ({ contacts: prevState.contacts.filter(el => el.id !== id) }))
   }
 
   render() {
-
     const { contacts, filter } = this.state;
     const normolizedFilter = filter.toLocaleLowerCase();
     const filteredContacts = contacts.filter(contact => (contact.name.toLowerCase().includes(normolizedFilter)))
@@ -47,10 +52,10 @@ class App extends Component {
     return (
       <div className={styles.container}>
         <h1>Phonebook</h1>
-        <ContactForm options={['name', 'number']} onSubmit={this.handleNewContactsItem} />
+        <ContactForm options={['name', 'number']} handleSubmit={this.handleNewContactsItem} />
         <h2>Contacts: </h2>
-        <Filter onCnange={this.handleFilterValue} filterList={filter} />
-        <ContactList contactsList={filteredContacts} onClick={this.heandleDeleteContact} />
+        <Filter handleCnange={this.handleFilterValue} filterList={filter} />
+        <ContactList contactsList={filteredContacts} handleClick={this.handleDeleteContact} />
       </div>
     );
   }

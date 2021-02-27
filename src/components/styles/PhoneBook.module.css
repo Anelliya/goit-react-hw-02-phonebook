@@ -41,7 +41,7 @@ h2 {
     padding                              : 20px;
     /* background-image                  : linear-gradient(to top, rgb(95, 58, 231), rgb(10, 25, 160)); */
     background-color                     : rgb(246, 231, 210);
-    box-shadow                           : -10px -10px 5px 0 rgb(195, 163, 163);
+    box-shadow                           : -10px -10px 5px 0 rgb(187, 181, 173);
 }
 
 .form {}

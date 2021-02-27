@@ -2,10 +2,10 @@
 import styles from './styles/PhoneBook.module.css'
 
 
-const Filter = ({ filterList, onCnange }) => {
+const Filter = ({ filterList, handleCnange }) => {
     return (
         <label className={styles.findField}>
-            Find contacts by name: <input type="text" name="" value={filterList} onChange={onCnange} className={styles.findInput} />
+            Find contacts by name: <input type="text" name="" value={filterList} onChange={handleCnange} className={styles.findInput} />
         </label>
     )
 }
