@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import generateUniqueId from 'generate-unique-id'
 
-
-import styles from './components/styles/PhoneBook.module.css'
-import './App.css';
-
 import ContactForm from "./components/ContactForm";
 import ContactList from "./components/ContactList";
 import Filter from './components/Filter';
+
+import styles from './components/styles/PhoneBook.module.css'
+import './App.css';
 
 class App extends Component {
 
@@ -22,17 +21,25 @@ class App extends Component {
   }
 
   handleNewContactsItem = (contactstItem) => {
-    let newId;
-    if (contactstItem) newId = generateUniqueId();
-    contactstItem.id = newId
+    let newContactstItem;
+
+    if (contactstItem) {
+      newContactstItem = {
+        id: generateUniqueId(),
+        ...contactstItem
+      }
+    }
 
     const contacts = this.state.contacts;
     const checkName = contacts.find(el => el.name.toLowerCase() === contactstItem.name.toLowerCase())
 
-    !checkName ? this.setState(({ contacts }) => ({
-      contacts: [contactstItem, ...contacts]
-    }))
+    !checkName
+      ? this.setState(({ contacts }) => ({
+        contacts: [newContactstItem, ...contacts]
+      }))
       : alert(`${contactstItem.name} already in contacts`)
+
+    console.log(this.state.contacts)
   }
 
   handleFilterValue = event => {
