@@ -33,6 +33,11 @@ class App extends Component {
     this.setState({ filter: event.currentTarget.value });
   }
 
+  heandleDeleteContact = id => {
+    this.setState(prevState =>
+      ({ contacts: prevState.contacts.filter(el => el.id !== id) }))
+  }
+
   render() {
 
     const { contacts, filter } = this.state;
@@ -45,7 +50,7 @@ class App extends Component {
         <ContactForm options={['name', 'number']} onSubmit={this.handleNewContactsItem} />
         <h2>Contacts: </h2>
         <Filter onCnange={this.handleFilterValue} filterList={filter} />
-        <ContactList contactsList={filteredContacts} />
+        <ContactList contactsList={filteredContacts} onClick={this.heandleDeleteContact} />
       </div>
     );
   }
