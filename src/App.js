@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import generateUniqueId from 'generate-unique-id'
 
 import ContactForm from "./components/ContactForm";
 import ContactList from "./components/ContactList";
@@ -7,6 +6,8 @@ import Filter from './components/Filter';
 
 import styles from './components/styles/PhoneBook.module.css'
 import './App.css';
+
+
 
 class App extends Component {
 
@@ -20,26 +21,11 @@ class App extends Component {
     filter: '',
   }
 
-  handleNewContactsItem = (contactstItem) => {
-    let newContactstItem;
+  handleSaveContact = (newContact) => {
 
-    if (contactstItem) {
-      newContactstItem = {
-        id: generateUniqueId(),
-        ...contactstItem
-      }
-    }
-
-    const contacts = this.state.contacts;
-    const checkName = contacts.find(el => el.name.toLowerCase() === contactstItem.name.toLowerCase())
-
-    !checkName
-      ? this.setState(({ contacts }) => ({
-        contacts: [newContactstItem, ...contacts]
-      }))
-      : alert(`${contactstItem.name} already in contacts`)
-
-    console.log(this.state.contacts)
+    this.setState(({ contacts }) => ({
+      contacts: [newContact, ...contacts]
+    }))
   }
 
   handleFilterValue = event => {
@@ -59,7 +45,7 @@ class App extends Component {
     return (
       <div className={styles.container}>
         <h1>Phonebook</h1>
-        <ContactForm options={['name', 'number']} handleSubmit={this.handleNewContactsItem} />
+        <ContactForm options={['name', 'number']} handleSubmit={this.handleSaveContact} contacts={contacts} />
         <h2>Contacts: </h2>
         <Filter handleCnange={this.handleFilterValue} filterList={filter} />
         <ContactList contactsList={filteredContacts} handleClick={this.handleDeleteContact} />
