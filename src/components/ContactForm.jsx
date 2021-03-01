@@ -11,9 +11,30 @@ class ContactForm extends Component {
         number: '',
     }
 
-    handleNewValue = ev => {
-        const { value, name } = ev.target;
+    sendContactToApp(newContact) {
+        this.props.handleSubmit(newContact);
+    }
 
+    showMessage(newContactDate) {
+        alert(`${newContactDate.name} already in contacts`);
+    }
+
+    resetState() {
+        this.setState({
+            name: '',
+            number: '',
+        })
+    }
+
+    createNewContact() {
+        return {
+            id: generateUniqueId(),
+            ...this.state,
+        }
+    }
+
+    handleNewValue = (ev) => {
+        const { value, name } = ev.target;
         this.setState({
             [name]: value,
         })
@@ -23,30 +44,14 @@ class ContactForm extends Component {
         const newContactDate = this.state;
         const contacts = this.props.contacts;
         const checkedName = contacts.find(el => el.name.toLowerCase() === newContactDate.name.toLowerCase())
-        let newContact;
-
-        const sendContactToApp = () => this.props.handleSubmit(newContact);
-        const showMessage = () => alert(`${newContactDate.name} already in contacts`);
-        const resetState = () => {
-            this.setState({
-                name: '',
-                number: '',
-            })
-        }
-        const createNewContact = () => {
-            newContact = {
-                id: generateUniqueId(),
-                ...newContactDate
-            }
-        }
 
         if (!checkedName) {
-            createNewContact();
-            sendContactToApp();
+            let newContact = this.createNewContact();
+            this.sendContactToApp(newContact);
         } else {
-            showMessage();
+            this.showMessage(newContactDate);
         }
-        resetState()
+        this.resetState();
     }
 
     render() {
